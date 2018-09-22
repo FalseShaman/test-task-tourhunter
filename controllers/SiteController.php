@@ -20,17 +20,17 @@ class SiteController extends Controller
     public function actionLogin()
     {
         $session = Yii::$app->session;
-        if (!$session->isActive) {
+        if (!$session->isActive) { // create session if not exist
             $session->open();
         }
-        if ($session->get('account_id', false)) {
+        if ($session->get('account_id', false)) { // redirect to balance if already logged in
             return $this->redirect(Url::to(['site/balance']));
         }
 
         $form = new AuthForm();
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) { // form validation
             $loginAccount = Account::findOne(['name' => $form->name]);
-            if (!$loginAccount) {
+            if (!$loginAccount) { // create new account if not exist
                 $account = new Account();
                 $account->name = $form->name;
                 $account->save();
@@ -45,7 +45,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         $session = Yii::$app->session;
-        if ($session->isActive) {
+        if ($session->isActive) { // logout
             $session->remove('account_id');
         }
         return $this->redirect(Url::to(['site/index']));
@@ -54,18 +54,18 @@ class SiteController extends Controller
     public function actionBalance()
     {
         $session = Yii::$app->session;
-        if (!$session->get('account_id', false)) {
+        if (!$session->get('account_id', false)) { // redirect to login if not logged in
             return $this->redirect(Url::to(['site/login']));
         }
 
         $account = Account::findOne($session->get('account_id'));
         $form = new BalanceForm(array(), $account);
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) { // form validation
             $send = $account->send($form->receiver, $form->amount);
-            if (!$send['status']) {
+            if (!$send['status']) { // send fail
                 $form->addError('amount', $send['message']);
             }
-            if (!$form->hasErrors()) {
+            if (!$form->hasErrors()) { // send success, refresh form
                 $form->receiver = null;
                 $form->amount = null;
                 Yii::$app->session->setFlash('flashMsg', 'Success!');
