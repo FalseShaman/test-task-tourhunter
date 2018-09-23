@@ -30,9 +30,7 @@ class TransferTest extends \Codeception\Test\Unit
         $sender = Account::findOne(['name' => 'sender']);
         $amount = 370;
         $result = $sender->send('receiver', $amount);
-
         expect_that($result['status']);
-        expect_not($result['status']);
     }
 }
 ?>
