@@ -45,9 +45,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         $session = Yii::$app->session;
-        if ($session->isActive) { // logout
-            $session->remove('account_id');
-        }
+        $session->destroy();
         return $this->redirect(Url::to(['site/index']));
     }
 
