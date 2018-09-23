@@ -1,13 +1,9 @@
 <?php
 
-$host = $username = $password = $dbname = '';
-$url = parse_url(getenv("JAWSDB_URL"));
-if (isset($url["host"]) && isset($url["user"]) && isset($url["pass"]) && isset($url["path"])) {
-    $host = $url["host"];
-    $username = $url["user"];
-    $password = $url["pass"];
-    $dbname = substr($url["path"], 1);
-}
+$host = 'b8rg15mwxwynuk9q.chr7pe7iynqr.eu-west-1.rds.amazonaws.com';
+$username = 'h73o8qjbm6n1ppqs';
+$password = 'zjmhx96pj8ga68af';
+$dbname = 'camef621p98t2jsu';
 
 return [
     'class' => 'yii\db\Connection',
