@@ -1,10 +1,19 @@
 <?php
 
+$host = $username = $password = $dbname = '';
+$url = parse_url(getenv("JAWSDB_URL"));
+if (isset($url["host"]) && isset($url["user"]) && isset($url["pass"]) && isset($url["path"])) {
+    $host = $url["host"];
+    $username = $url["user"];
+    $password = $url["pass"];
+    $dbname = substr($url["path"], 1);
+}
+
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=b8rg15mwxwynuk9q.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=camef621p98t2jsu',
-    'username' => 'h73o8qjbm6n1ppqs',
-    'password' => 'zjmhx96pj8ga68af',
+    'dsn' => 'mysql:host=' . $host . ';dbname=' . $dbname,
+    'username' => $username,
+    'password' => $password,
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)
