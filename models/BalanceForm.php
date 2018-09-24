@@ -43,5 +43,8 @@ class BalanceForm extends Model
         if (!$receiver) {
             $this->addError('receiver', 'Account not found');
         }
+        if ($receiver->id == $this->sender->id) {
+            $this->addError('receiver', 'Account invalid');
+        }
     }
 }
